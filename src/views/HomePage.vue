@@ -1,78 +1,69 @@
 <template>
   <div class="home-container">
-    
-    <section class="hero-section">
-      <h1>{{ heroData.title }}</h1>
-      <p>{{ heroData.subtitle }}</p>
-      <button class="cta-button">{{ heroData.buttonText }}</button>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-section">
+      <transition :name="slideTransition">
+        <div :key="currentSlide.title" class="slide">
+          <img :src="currentSlide.image" alt="Slide Image">
+        </div>
+      </transition>
     </section>
-    
-    <section class="features-section">
-      <div v-for="feature in featuresData" :key="feature.title" class="feature">
-        <h3>{{ feature.title }}</h3>
-        <p>{{ feature.description }}</p>
+
+    <!-- Services and Products Section -->
+    <section class="cards-section">
+      <div  class="card">
+        <router-link :to="{ name: 'Services' }">
+        <img src="https://www.practostatic.com/consumer-home/desktop/images/1597423628/dweb_find_doctors.png" alt="Card Image">
+        <h3>Services</h3>
+        <p>"Expert consultations and treatments."</p>
+        </router-link>
       </div>
+       <div class="card">
+        <router-link :to="{ name: 'Products'}">
+
+          <img src="https://www.practostatic.com/consumer-home/desktop/images/1597423628/dweb_find_doctors.png" alt="Card Image">
+          <h3>Products</h3>
+          <p>Quality healthcare products for you</p>
+        </router-link>
+
+        </div>
     </section>
-    
+
+    <!-- Footer Text -->
+    <section class="footer-text">
+      <p>Your health matters to us. Explore a range of services and products tailored to meet your needs. Stay fit, stay
+        healthy!</p>
+    </section>
+
   </div>
 </template>
 
 <script>
-
-
 export default {
-  components: {
- 
-  },
   data() {
     return {
-      heroData: {
-        title: "Welcome to HealthCare",
-        subtitle: "Your one-stop solution for health consultations and products.",
-        buttonText: "Get Started"
-      },
-      featuresData: [
-        {
-          title: "Consultation",
-          description: "Expert advice at the comfort of your home."
-        },
-        {
-          title: "Products",
-          description: "Quality healthcare products delivered at your doorstep."
-        },
-        {
-          title: "Support",
-          description: "24/7 Support for all your healthcare needs."
-        }
-      ]
+      slideTransition: 'slide-fade',
+      slideIndex: 0,
+      slideData: [
+        { title: "Slide 1", image: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/1f3a3fb326fae2bd.jpg?q=20" },
+        { title: "Slide 2", image: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/624f9293b94ee221.jpeg?q=20" },
+        // ... Add more slides as needed
+      ],
+      currentSlide: {}, // Initialize currentSlide here
     };
   },
   mounted() {
-    // Uncomment the below to fetch data from the API:
-    // this.fetchHeroData();
-    // this.fetchFeaturesData();
+    this.currentSlide = this.slideData[this.slideIndex]; // Set the initial slide
+    setInterval(this.nextSlide, 4000);
   },
   methods: {
-    /*
-    async fetchHeroData() {
-      try {
-        const response = await axios.get('/api/hero-data');
-        this.heroData = response.data;
-      } catch (error) {
-        console.error('Error fetching hero data:', error);
-      }
-    },
-    async fetchFeaturesData() {
-      try {
-        const response = await axios.get('/api/features-data');
-        this.featuresData = response.data;
-      } catch (error) {
-        console.error('Error fetching features data:', error);
-      }
+    nextSlide() {
+      this.slideIndex = (this.slideIndex + 1) % this.slideData.length;
+      this.currentSlide = this.slideData[this.slideIndex];
     }
-    */
   }
-};
+}
 </script>
 
 
@@ -80,49 +71,59 @@ export default {
 <style scoped>
 .home-container {
   font-family: 'Arial', sans-serif;
+  padding: 0 1rem;
 }
 
-.hero-section {
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-  padding: 5rem 0;
-  text-align: center;
-  color: white;
+.slideshow-section {
+  width: 100%;
+  overflow: hidden;
 }
 
-.hero-section h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+.slide img {
+  width: 100%;
+  display: block;
 }
 
-.cta-button {
-  background-color: white;
-  color: #4facfe;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.features-section {
+.cards-section {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 2rem 0;
 }
 
-.feature {
-  text-align: center;
-  width: 30%;
+.card {
+  flex: 1;
+  margin: 0 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.feature h3 {
-  font-size: 1.5rem;
-  color: #4facfe;
+.card img {
+  width: 100%;
+  display: block;
 }
+
+.card h3 {
+  color: #4facfe;
+  padding: 1rem;
+}
+
+.card p {
+  padding: 0 1rem 1rem;
+}
+
+.footer-text {
+  padding: 2rem 0;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Slide transition */.slide-enter-active, .slide-leave-active {
+  transition: opacity 1s;
+}
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+}
+
 
 </style>

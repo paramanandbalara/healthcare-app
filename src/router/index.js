@@ -1,30 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/HomePage.vue';
-import Consultation from '../views/ConcernView.vue';
-import Shop from '../views/ShopView.vue';
+import Services from '../views/ServicesView.vue';
+import Products from '../views/ProductsView.vue';
 import Cart from '../views/CartView.vue';
 import Login from '../views/LoginPage.vue';
-import Register from '../views/RegisterPage.vue';
 import ProductDetails from '@/components/ProductDetails.vue';
-import ConsultancySolution from '@/components/consultancySolution';
 
 const routes = [
-	{ path: '/', component: Home },
-	{ path: '/consultation', component: Consultation },
-	{ path: '/shop', component: Shop },
-	{ path: '/cart', component: Cart },
-	{ path: '/login', component: Login },
-	{ path: '/register', component: Register },
+	{ path: '/', name: 'Home', component: Home },
+	{ path: '/services', name: 'Services', component: Services },
+	{ path: '/products', name: 'Products', component: Products }, // Changed 'Products' to lowercase for consistency
+	{ path: '/cart', name: 'Cart', component: Cart },
+	{ path: '/login', name: 'Login', component: Login },
 	{
 		path: '/product/:id',
 		name: 'ProductDetails',
 		component: ProductDetails,
 		props: true
-	},
-	{
-		path: '/consultation/solution',
-		name: 'ConsultancySolution',
-		component: ConsultancySolution
 	}
 ];
 

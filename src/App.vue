@@ -40,7 +40,7 @@ export default {
 
 .header {
   top: 0;
-  background-color: #333;
+  background-color: #009dff;
   color: #fff;
   text-align: center;
   padding: 0.5rem 0;
@@ -48,7 +48,7 @@ export default {
 
 .footer {
   bottom: 0;
-  background-color: #444;
+  background-color: #009dff;
   color: #ccc;
   text-align: center;
   padding: 0.5em;
@@ -58,7 +58,7 @@ export default {
   flex: 1;
   overflow-y: scroll;
   /* Enable vertical scrolling */
-   padding-top: 110px; /* Increase this value */
+   padding-top: 50px; /* Increase this value */
   /* Approx height of header */
   padding-bottom: 50px;
   /* Approx height of footer */
