@@ -24,22 +24,18 @@ export default {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   /* Use 100% viewport height */
-  overflow: hidden;
-  /* Prevent scrolling on the app itself */
 }
 
 .header,
 .footer {
-  position: fixed;
-  left: 0;
-  right: 0;
+  width: 100%;
   z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header {
-  top: 0;
   background-color: #009dff;
   color: #fff;
   text-align: center;
@@ -47,7 +43,6 @@ export default {
 }
 
 .footer {
-  bottom: 0;
   background-color: #009dff;
   color: #ccc;
   text-align: center;
@@ -56,12 +51,41 @@ export default {
 
 .content {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   /* Enable vertical scrolling */
-   padding-top: 50px; /* Increase this value */
-  /* Approx height of header */
-  padding-bottom: 50px;
-  /* Approx height of footer */
+  padding-top: 20px;
+  padding-bottom: 20px;
   position: relative;
   z-index: 1;
-}</style>
+}
+
+/* Responsive styles for tablets and larger devices */
+@media screen and (min-width: 768px) {
+
+  .header,
+  .footer {
+    padding: 1rem 0;
+  }
+
+  .content {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+/* Responsive styles for desktops */
+@media screen and (min-width: 1024px) {
+
+  .header,
+  .footer {
+    padding: 1.5rem 0;
+  }
+
+  .content {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+</style>
+

@@ -1,22 +1,21 @@
 <template>
   <div class="products-grid">
-    <div v-for="product in products" :key="product.id" class="product-card">
-      <router-link :to="{ name: 'ProductDetails', params: { id: product.id } }">
-      <div class="discount-tag">{{ product.discount }} OFF</div>
-      <img :src="product.imageUrl" alt="Product Image" class="product-image" />
-      <h3>{{ product.title }}</h3>
-      <div class="categories">
-        <span v-for="category in product.categories" :key="category" class="category">{{ category }}</span>
-      </div>
-      <div class="manufacturer">Mkt: {{ product.manufacturer }}</div>
-      <div class="price">₹ {{ product.price }}</div>
-      <div class="original-price">MRP ₹{{ product.originalPrice }}</div>
+    <div v-for="product in computedProducts" :key="product.id" class="product-card">
+      <router-link :to="{ name: 'ProductDetails', params: { id: product.id } }" class="product-link">
+        <div class="discount-tag">{{ product.discount }} OFF</div>
+        <img :src="product.imageUrl" alt="Product Image" class="product-image" />
+        <div class="product-info">
+          <h3>{{ product.title }}</h3>
+          <div class="manufacturer">Mkt: {{ product.manufacturer }}</div>
+          <div class="price">₹ {{ product.price }}</div>
+          <div class="original-price">MRP ₹{{ product.originalPrice }}</div>
+        </div>
       </router-link>
-      <button @click="addToCart(product.id)">ADD TO CART</button>
+      <button @click="addToCart(product.id)" class="cart-btn">ADD TO CART</button>
     </div>
-
   </div>
 </template>
+
 
 <script>
 export default {
@@ -73,6 +72,17 @@ export default {
       ]
     };
   },
+   computed: {
+    computedProducts() {
+      return this.products.map(product => {
+        let discountValue = parseFloat(product.discount);
+        let originalPriceValue = parseFloat(product.originalPrice);
+        let discountedPrice = originalPriceValue - (originalPriceValue * (discountValue / 100));
+        product.price = discountedPrice.toFixed(2);
+        return product;
+      });
+    }
+  },
   methods: {
     addToCart(productId) {
       console.log(`Added product with ID ${productId} to cart.`);
@@ -81,70 +91,139 @@ export default {
 }
 </script>
 
+
+
+
 <style scoped>
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .product-card {
+  width: 200px;
   border: 1px solid #e0e0e0;
-  padding: 16px;
-  border-radius: 8px;
-  position: relative;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s;
+  justify-content: center;
+
+}
+
+
+
+.product-card:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .discount-tag {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 10px;
+  left: 10px;
   background-color: #4CAF50;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .product-image {
-  width: 100%;
-  height: auto;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  margin: auto;
 }
 
-.categories {
+.product-info h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.manufacturer, .price, .original-price {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.cart-btn {
+  background-color: #4CAF50;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.cart-btn:hover {
+  background-color: #45a049; /* Slightly darker shade for hover effect */
+}
+
+.product-link {
+  text-decoration: none; /* Remove the default underline from the link */
+  color: inherit; /* Inherit the color from the parent, so it doesn't use the default link color */
+}
+
+.product-info {
   display: flex;
-  gap: 4px;
-}
-
-.category {
-  background-color: #F1F1F1;
-  padding: 4px 8px;
-  border-radius: 4px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .manufacturer {
+  color: #666;
   font-size: 14px;
-  margin-top: 8px;
 }
 
 .price {
+  color: #333;
+  font-size: 18px;
   font-weight: bold;
-  font-size: 20px;
-  margin-top: 8px;
 }
 
 .original-price {
   font-size: 14px;
-  text-decoration: line-through;
-  color: #888;
 }
 
-button {
-  margin-top: 16px;
-  padding: 8px 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Mobile view */
+@media (max-width: 600px) {
+  .products-grid {
+    justify-content: center; 
+  }
+
+  .product-card {
+    width: 90%; 
+    margin: 10px 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+  }
+
+  .product-image {
+    margin: auto; /* Center the image both vertically and horizontally */
+  }
+
+  .product-info {
+    text-align: center;
+  }
 }
+
+
+
+
+
+
 </style>

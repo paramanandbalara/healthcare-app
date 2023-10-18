@@ -131,186 +131,166 @@ export default {
 
 
 <style scoped>
-.container {
+
+.product-details {
     display: flex;
-    justify-content: space-between;
-    padding: 2rem 5rem;
-    align-items: flex-start;
-     margin-bottom: 20px;
-    /* Aligning the content at the top */
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    gap: 2rem;
+    color: #333; /* Dark text color for improved readability */
 }
 
-.left-content {
-    width: 30%;
-    position: sticky;
-    top: 10px;
-    align-self: center;
-    /* Centering the image vertically */
+.fixed-section {
+    flex: 1;
+    padding: 20px;
+    box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
 }
 
 .image-slider {
-    width: 250px;
-    height: 400px;
-    margin: 0;
-    /* Removing bottom margin */
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
     border: 1px solid #ccc;
 }
 
 .image-slider img {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    /* Adding shadow for better appearance */
-}
-
-.buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-.product-image-container {
-    margin-right: 5px; /* or whatever value seems appropriate */
-   
-
-}
-
-.product-details-container {
-    margin-left: 5px; /* or whatever value seems appropriate */
-}
-.parent-container {
-    gap: 10px; /* or column-gap if using grid and you want to only adjust the gap between columns */
-}
-
-.right-content {
-    width: 65%;
-}
-
-.product-details {
-    display: flex;
-    font-family: Arial, sans-serif;
-}
-
-.fixed-section {
-    width: 30%;
-    padding: 20px;
-    box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.1);
 }
 
 .product-actions {
     display: flex;
     gap: 10px;
-    justify-content: start;
-    /* Aligning buttons to the start */
-}
-
-button {
-    background-color: #457ec3; /* Default button color */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    padding-top: 10px;
-}
-
-button:hover {
-    filter: brightness(0.9);
-}
-
-/* Adjusting button colors */
-
-.product-description {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        border-radius: 5px;
-        background: rgba(0, 128, 128, 0.04);
-        /* subtle background color */
-        margin: 10px 0;
-    }
-
-    .product-description h3 {
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-
-    /* Button styles refined */
-    .add-to-cart-button {
-        background-color: #4CAF50;
-        margin-right: 10px;
-    }
-
-    .buy-now-button {
-        background-color: rgb(236, 131, 11);
-        color: black;
-    }
-
-    .load-more-button,
-    .submit-review-button {
-        background-color: #457ec3;
-        color: #fff;
-        margin-top: 10px;
-    }
-
-    .load-more-button:hover,
-    .submit-review-button:hover {
-        filter: brightness(0.9);
-    }
-
-.add-to-cart-button, .buy-now-button {
+    justify-content: center;
     margin-top: 20px;
+}
+
+.add-to-cart-button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buy-now-button {
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .scrollable-section {
-    flex: 1;
+    flex: 2;
     overflow-y: auto;
     padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
 }
 
 .product-info h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
-.product-info p {
-    margin-bottom: 10px;
+.product-info > p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: bold; /* Emphasis on important elements */
 }
 
-.reviews,
-.questions {
-    margin-top: 20px;
+.product-description h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.review {
-    background-color: #12a3dc;
-    padding: 10px;
-    margin-bottom: 10px;
+.product-description p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.reviews h2, .questions h2, .write-review h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.review, .question {
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
     border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
-.write-review {
-    margin-top: 20px;
+.load-more-button, .submit-review-button {
+    padding: 10px 20px;
+    background-color: #333; /* Dark color similar to text */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
 }
-
 .write-review textarea {
     width: 100%;
-    height: 100px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+    resize: vertical; /* allows user to resize textarea vertically only */
 }
 
+/* Media query for responsiveness on smaller screens */
 @media (max-width: 768px) {
     .product-details {
         flex-direction: column;
     }
 
-    .fixed-section {
+    .fixed-section, .scrollable-section {
         width: 100%;
     }
-}</style>
 
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .add-to-cart-button, .buy-now-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    /* Adjusting font sizes for smaller screens */
+    .product-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .product-info > p {
+        font-size: 1rem;
+    }
+
+    .product-description h3 {
+        font-size: 1.2rem;
+    }
+
+    .product-description p, .review, .question {
+        font-size: 1rem;
+    }
+
+    .reviews h2, .questions h2, .write-review h2 {
+        font-size: 1.5rem;
+    }
+}
+
+
+
+</style>
