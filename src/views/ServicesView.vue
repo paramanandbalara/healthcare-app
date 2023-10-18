@@ -1,5 +1,3 @@
-<!-- services.vue -->
-
 <template>
   <div class="services-container">
     <div v-for="service in services" :key="service.title" class="service-card" @mouseover="hoverService(service.title)"
@@ -79,24 +77,27 @@ export default {
 
 <style scoped>
 .services-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+  background-color: #f6f6f6;
 }
 
 .service-card {
-  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.3s;
+  color: black;
   padding: 20px;
-  width: 200px;
   text-align: center;
-  margin: 10px;
-  border-radius: 10px;
-  transition: transform 0.2s;
 }
 
 .service-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .icon img {
@@ -104,27 +105,70 @@ export default {
   height: 80px;
   border-radius: 50%;
   margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.service-card:hover .icon img {
+  transform: scale(1.1);
 }
 
 .price {
+  font-size: 20px;
   font-weight: bold;
+  margin-top: 15px;
 }
 
 .highlight-price {
-  color: #ff4500;
+  color: #E91E63;
 }
 
 .consult-button {
-  background-color: #42b983;
-  color: white;
   padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
-  margin-top: 10px;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.2s;
 }
 
 .consult-button:hover {
-  background-color: #2a8f62;
+  background-color: #388E3C;
 }
+
+
+@media only screen and (max-width: 768px) {
+  .services-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .service-card {
+    padding: 15px;
+  }
+
+  .icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .consult-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .services-container {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>

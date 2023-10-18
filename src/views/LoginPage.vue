@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="login-container">
     <h2>Login</h2>
@@ -95,15 +93,22 @@ export default {
 
 <style scoped>
 .login-container {
-  width: 300px;
+  max-width: 360px;
   margin: 50px auto;
   text-align: center;
+  padding: 0 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: #fff;
 }
 
 input {
   padding: 10px;
   margin: 10px 0;
   width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 button {
@@ -112,9 +117,14 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 16px;
 }
 
-button:hover {
+button:hover,
+button:focus {
   background-color: #2a8f62;
 }
 
@@ -122,21 +132,28 @@ button:hover {
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .otp-box {
-  width: 30px;
+  width: 40px;
   height: 40px;
   font-size: 24px;
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-top: 10px;
 }
 
 .otp-box:focus {
   border-color: #42b983;
+  outline: none;
+}
+
+/* Responsive styles for larger screens */
+@media screen and (min-width: 768px) {
+  .login-container {
+    max-width: 480px;
+  }
 }
 </style>
-
-
-
