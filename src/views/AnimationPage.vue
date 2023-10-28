@@ -10,7 +10,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.$router.push('/home'); // navigate to home page after 2 seconds
-        }, 5000);
+        }, 3000);
     }
 }
 </script>
