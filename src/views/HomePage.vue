@@ -171,10 +171,6 @@ body {
 
 /* Responsive Styles */
 @media (max-width: 992px) { /* Tablet devices */
-  .cards-section {
-    flex-direction: column;
-  }
-
   .card {
     margin-bottom: 1.5rem; /* Spacing between stacked cards on smaller screens */
   }
