@@ -9,7 +9,7 @@
             </div>
             <nav v-if="showNav || isWideScreen">
                 <ul class="nav-links">
-                    <li><router-link to="/" @click="closeNav">Home</router-link></li>
+                    <li><router-link to="/home" @click="closeNav">Home</router-link></li>
                     <li><router-link to="/services" @click="closeNav">Services</router-link></li>
                     <li><router-link to="/products" @click="closeNav">Products</router-link></li>
                     <li v-if="isLoggedIn"><router-link to="/profile" @click="closeNav">Profile</router-link></li>

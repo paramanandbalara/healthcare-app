@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <AppHeader />
-    <div class="content">
+    <AppHeader v-if="showHeaderFooter" />
+    <div :class="['content', { 'no-padding': !showHeaderFooter }]">
       <router-view />
     </div>
-    <AppFooter />
+    <AppFooter v-if="showHeaderFooter" />
   </div>
 </template>
 
@@ -16,9 +16,16 @@ export default {
   components: {
     AppHeader,
     AppFooter
+  },
+  computed: {
+    showHeaderFooter() {
+      // Hide header and footer for the animation page
+      return this.$route.path !== '/';
+    }
   }
 }
 </script>
+
 
 <style>
 #app {
@@ -48,15 +55,17 @@ export default {
   text-align: center;
   padding: 0.5em;
 }
-
 .content {
   flex: 1;
   overflow-y: auto;
-  /* Enable vertical scrolling */
   padding-top: 20px;
   padding-bottom: 20px;
   position: relative;
   z-index: 1;
+}
+
+.content.no-padding {
+  padding: 0;
 }
 
 /* Responsive styles for tablets and larger devices */
