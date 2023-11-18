@@ -56,16 +56,13 @@ export default {
   padding: 0.5em;
 }
 .content {
+  background-color: #f1f5f7;
   flex: 1;
   overflow-y: auto;
   padding-top: 20px;
   padding-bottom: 20px;
   position: relative;
   z-index: 1;
-}
-
-.content.no-padding {
-  padding: 0;
 }
 
 /* Responsive styles for tablets and larger devices */

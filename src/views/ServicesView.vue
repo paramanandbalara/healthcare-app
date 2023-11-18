@@ -81,7 +81,8 @@ export default {
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   padding: 20px;
-  background-color: #f6f6f6;
+  background-color: transparent;
+
 }
 
 .service-card {

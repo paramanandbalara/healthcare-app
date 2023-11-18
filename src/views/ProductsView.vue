@@ -98,7 +98,8 @@ export default {
 .products-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  background-color: transparent;
+  gap: 25px;
 }
 
 .product-card {
@@ -111,7 +112,7 @@ export default {
   align-items: center;
   transition: 0.3s;
   justify-content: center;
-
+background-color: #ffffff;
 }
 
 

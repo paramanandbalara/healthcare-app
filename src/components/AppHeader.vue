@@ -1,7 +1,10 @@
 <template>
     <div class="header">
         <div class="header-container">
-            <img src="@/assets/images/logo.png" alt="HealthCare Logo" class="logo" />  
+            <router-link to="/home" class="logo-name-container">
+        <img src="@/assets/images/logo.png" alt="HealthCare Logo" class="logo" />
+        <div class="header-name">Homeopathy</div>
+    </router-link> 
             <div class="nav-hamburger">
                 <button class="hamburger" @click="showNav = !showNav">
                     {{ menuIcon }}
@@ -79,13 +82,31 @@ export default {
 }
 </script>
 <style scoped>
-
+.header-name {
+    font-size: 1.5rem; 
+    margin-left: 20px; 
+    color: #ecf0f1; 
+    font-weight: bold; 
+    align-self: center; 
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
 .header {
     background-color: #5880aa;
     color: #fff;
     padding: 0.5rem 0;
   }
+.logo-name-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Removes the underline from the router link */
+    color: inherit; /* Ensures the text color remains consistent */
+}
 
+
+
+.logo-name-container:hover .header-name {
+    color: #fff; /* Change the color on hover */
+}
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -179,6 +200,10 @@ export default {
 
 /* Mobile styles */
 @media (max-width: 768px) {
+    .header-name {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+        margin-left: 10px;
+    }
     .nav-hamburger {
         display: flex;
     }

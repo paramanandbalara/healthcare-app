@@ -51,11 +51,29 @@ export default {
         // ... Add more slides as needed
       ],
       currentSlide: {}, // Initialize currentSlide here
+      bestSellers: [
+        { id: 1, title: "Product 1", description: "Description of Product 1", image: "url_to_image1", price: 100 },
+        { id: 2, title: "Product 2", description: "Description of Product 2", image: "url_to_image2", price: 150 },
+        // ... more dummy products
+      ],
+      advertisements: [
+        { id: 1, image: 'ad_image_url_1' },
+        { id: 2, image: 'ad_image_url_2' },
+        // ... more advertisement images
+      ],
+      currentAd: 1
     };
   },
   mounted() {
     this.currentSlide = this.slideData[this.slideIndex]; // Set the initial slide
     setInterval(this.nextSlide, 4000);
+
+     setInterval(() => {
+      this.currentAd++;
+      if (this.currentAd > this.advertisements.length) {
+        this.currentAd = 1;
+      }
+    }, 5000);
   },
   methods: {
     nextSlide() {
@@ -74,7 +92,7 @@ export default {
   font-family: 'Arial', sans-serif;
   padding: 0 1rem;
   color: #333;
-  background-color: #f9f9f9;
+  background-color: transparent;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -167,7 +185,12 @@ body {
   background-image: linear-gradient(to bottom, #f9f9f9, #e9e9e9);
 }
 
-/* ... Previous Styles ... */
+
+
+
+
+
+
 
 /* Responsive Styles */
 @media (max-width: 992px) { /* Tablet devices */

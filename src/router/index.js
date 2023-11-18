@@ -7,6 +7,7 @@ import Login from '../views/LoginPage.vue';
 import ProductDetails from '@/components/ProductDetails.vue';
 import Profile from '../views/ProfileView.vue';
 import AnimationPage from '../views/AnimationPage.vue';
+import AddressBook from '../views/AddressBook.vue';
 
 const routes = [
 	// Set animation as the default route
@@ -22,7 +23,12 @@ const routes = [
 		component: ProductDetails,
 		props: true
 	},
-	{ path: '/profile', name: 'Profile', component: Profile }
+	{ path: '/profile', name: 'Profile', component: Profile },
+	{
+      path: '/address-book',
+      name: 'AddressBook',
+      component: AddressBook
+    }
 ];
 
 const router = createRouter({
