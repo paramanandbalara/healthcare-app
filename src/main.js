@@ -1,15 +1,44 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+// Components
+import App from './App.vue'
 
-library.add(faShoppingCart);
+// Composables
+import { createApp } from 'vue'
 
-const app = createApp(App)
-	.use(router)
-	.component('font-awesome-icon', FontAwesomeIcon);
+// Plugins
+import { registerPlugins } from '@/plugins'
 
-app.mount('#app');
+// Axios
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+const app = createApp(App);
+
+axios.interceptors.request.use(
+    request => {
+        // console.log(request, 'request')
+        return request
+    }
+)
+axios.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        console.log(error,'error')
+        return Promise.reject(error)
+    }
+)
+
+axios.defaults.baseURL = process.env.HOMEOPATHA_API_SERVER;
+
+app.use(VueAxios, axios)
+
+registerPlugins(app)
+
+app.mount('#app')

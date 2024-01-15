@@ -9,7 +9,7 @@ export default {
     name: 'AnimationPage',
     mounted() {
         setTimeout(() => {
-            this.$router.push('/home'); // navigate to home page after 2 seconds
+            this.$router.push('/'); // navigate to home page after 2 seconds
         }, 3000);
     }
 }

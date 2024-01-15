@@ -1,0 +1,58 @@
+<template>
+  <v-container class="home-container">
+			<!-- <v-img class="mx-auto" src="@/assets/images/logo.png" alt="HealthCare Logo" width="100"></v-img> -->
+    <!-- Slideshow Section -->
+    <v-carousel hide-delimiter-background :interval="4000" height="240">
+      <v-carousel-item v-for="(slide, index) in slideData" :key="index">
+        <v-img :src="slide.image" aspect-ratio="2.5"></v-img>
+      </v-carousel-item>
+    </v-carousel>
+
+    <!-- Services and Products Section -->
+    <v-row class="cards-section">
+      <v-col cols="12" md="6">
+        <v-card elevation="5" to="/services" class="card">
+          <v-img height="400" cover src="@/assets/images/service.jpeg"></v-img>
+          <v-card-title>Services</v-card-title>
+          <v-card-text>Expert consultations and treatments.</v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-card elevation="5" to="/products" class="card">
+          <v-img height="400" cover src="@/assets/images/product.jpeg"></v-img>
+          <v-card-title>Products</v-card-title>
+          <v-card-text>Quality healthcare products for you.</v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- Footer Text -->
+    <v-row class="footer-text" justify="center">
+      <v-col cols="12">
+        <p class="pa-5 border rounded-lg bg-primary">Your health matters to us. Explore a range of services and products tailored to meet your needs. Stay fit, stay
+          healthy!</p>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      slideData: [
+        { title: "Slide 1", image: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/1f3a3fb326fae2bd.jpg?q=20" },
+        { title: "Slide 2", image: "https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/624f9293b94ee221.jpeg?q=20" },
+        // ... Add more slides as needed
+      ],
+      // Other data remains the same
+    };
+  },
+  // Methods and other lifecycle hooks remain the same
+}
+</script>
+
+<style scoped>
+/* Scoped styles remain mostly the same, adjust as necessary */
+/* ... */
+</style>
