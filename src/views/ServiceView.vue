@@ -5,7 +5,7 @@
         </v-row>
         <v-row>
             <v-col v-for="service in services" :key="service.title" cols="12" md="3">
-                <v-card class="h-100" elevation="3" @mouseover="hoverService(service.title)" @mouseout="unhoverService">
+                <v-card class="h-100" flat @mouseover="hoverService(service.title)" @mouseout="unhoverService">
                     <v-row>
                         <v-col cols="12">
                             <v-img :src="service.icon" :alt="service.title"></v-img>

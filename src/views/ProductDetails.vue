@@ -7,7 +7,7 @@
                 <v-card class="fixed-section" elevation="0">
                     <v-carousel v-model="slideIndex" hide-delimiter-background>
                         <v-carousel-item v-for="(image, index) in product.images" :key="index">
-                            <v-img :src="image" :alt="image.title"></v-img>
+                            <v-img :src="`data:image/jpeg;base64,${image.data}`" :alt="image.name"></v-img>
                         </v-carousel-item>
                     </v-carousel>
                     <v-card-actions class="d-flex justify-center">
@@ -17,7 +17,7 @@
                 </v-card>
 
             </v-col>
-            
+
             <v-col cols="12" lg="6">
 
                 <!-- Scrollable Section on the Right -->
@@ -25,7 +25,8 @@
                     <!-- Product Details -->
                     <div class="product-info">
                         <h1>{{ product.product_name }}</h1>
-                        <v-btn class="font-weight-bold mb-4" color="green" variant="elevated" rounded="lg" size="small">{{ product.rating }} ⭐</v-btn>
+                        <v-btn class="font-weight-bold mb-4" color="green" variant="elevated" rounded="lg" size="small">{{
+                            product.rating }} ⭐</v-btn>
                         <div class="d-flex align-end mb-4">
                             <p class="text-h5 font-weight-medium mr-4">₹ {{ discountedPrice }}</p>
                             <p class="text-medium-emphasis text-decoration-line-through">₹ {{ product.price }}</p>
@@ -57,27 +58,30 @@
                             </v-col>
                         </v-row> -->
                     </div>
-        
+
                     <!-- Reviews Section -->
                     <div class="reviews">
                         <h2 class="mb-4">Reviews</h2>
                         <v-list v-if="reviews.length > 0">
                             <v-list-item v-for="review in reviews" :key="review.id">
                                 <v-list-item-content>
-                                    <v-list-item-title>{{ review.content }}</v-list-item-title>
+                                    <v-rating hover :length="5" :size="32" :model-value="review .rating" readonly active-color="yellow-darken-3" />
+                                    <v-list-item-title>{{ review.user }}</v-list-item-title>
+                                    <v-list-item-title>{{ review.review }}</v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
                         <v-btn @click="loadMoreReviews" class="mt-4">Load More Reviews</v-btn>
                     </div>
-        
+
                     <!-- Write Review (Only for those who have purchased) -->
-                    <v-card v-if="hasPurchased" class="my-4">
+                    <v-card flat v-if="hasPurchased" class="my-4 pa-1">
                         <h2 class="mb-4">Write a Review</h2>
+                        <v-rating hover :length="5" :size="32" :model-value="0" v-model="rating" active-color="yellow-darken-3" />
                         <v-textarea v-model="newReview"></v-textarea>
-                        <v-btn @click="writeReview({ content: newReview })" class="submit-review-button">Submit Review</v-btn>
+                        <v-btn @click="writeReview" class="submit-review-button">Submit Review</v-btn>
                     </v-card>
-        
+
                     <!-- Q&A Section -->
                     <!-- <div class="my-4">
                         <h2 class="mb-4">Questions & Answers</h2>
@@ -98,6 +102,7 @@
 </template>
   
 <script>
+import { useAppStore } from '@/store/app';
 
 export default {
     data() {
@@ -119,8 +124,9 @@ export default {
             },
             newReview: '',
             reviews: [],
+            rating: 0,
             // questions: [],
-            hasPurchased: false,
+            hasPurchased: true,
             reviewLimit: 25,
             reviewsPage: 1,
         };
@@ -132,10 +138,13 @@ export default {
         discountPercentage() {
             return this.product.discount;
         },
-        productId(){
+        productId() {
             console.log(this.$route.params)
             return this.$route.params.id
-        }
+        },
+        store() {
+            return useAppStore()
+        },
     },
     mounted() {
         setInterval(this.nextSlide, 3000);
@@ -162,18 +171,30 @@ export default {
             try {
                 const res = await this.axios.get(`/reviews/${this.productId}?page=${this.reviewsPage}&limit=${this.reviewLimit}`)
                 console.log(res.data);
-                this.reviews = res.data.data;
-                this.reviewsPage +=1;
+                this.reviews = res.data;
+                this.reviewsPage += 1;
             } catch (error) {
                 console.error(error)
             }
         },
-        writeReview(reviewData) {
-            this.reviews.push({
-                id: this.reviews.length + 1,
-                content: reviewData.content
-            });
-            this.newReview = '';
+        async writeReview() {
+            try {
+                const formData = {
+                    product_id: this.productId,
+                    user_id: this.store.user.id,
+                    review: this.newReview,
+                    rating: this.rating
+                }
+                // Make an API call to fetch products from the backend
+                const res = await this.axios.post(`/reviews/add`, formData);
+                // if (res.data) {
+                this.product = res.data; // Update products with fetched data
+                // }
+
+                this.newReview = '';
+            } catch (error) {
+                console.error(error)
+            }
         },
         // loadMoreQuestions() {
         //     this.axios.get("/api/questions", { params: { limit: this.questionLimit } })

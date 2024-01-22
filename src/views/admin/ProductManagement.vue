@@ -9,7 +9,7 @@
             <v-card-text>
                 <v-data-table @update:page="(e)=>{console.log(e)}" class="border rounded-lg" :headers="headers" :items="products" item-key="id">
                     <template v-slot:[`item.thumbnail`]="{ item }">
-                        <img :src="item.thumbnail" alt="Product Image" style="max-width: 100px;">
+                        <img :src="`data:image/jpeg;base64,${item.thumbnail}`" alt="Product Image" style="max-width: 100px;">
                         <!-- <img :src="loaded_thumbnails[item.id]" alt="Product Image" style="max-width: 100px;"> -->
                     </template>
                     <template v-slot:[`item.discount`]="{ item }">
@@ -194,13 +194,14 @@ export default {
                 const res = await this.axios.post('/product', formData);
                 console.log(res);
                 // Update products list after successful update
+                this.dialog = false;
             } else {
                 const res = await this.axios.put(`/product/${id}`, formData);
                 // Implement add product functionality using API call
                 // Update products list after successful addition
                 console.log(res);
+                this.dialog = false;
             }
-            this.dialog = false;
             this.fetchProducts();
         },
         async fetchProducts() {

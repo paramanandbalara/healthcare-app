@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar app color="primary" class="w-100 pr-md-15" height="100">
+	<v-app-bar app color="brown-lighten-2" class="w-100 pr-md-15" height="100">
 		<!-- <v-app-bar-nav-icon @click="showNav = !showNav"></v-app-bar-nav-icon> -->
 		<router-link to="/" class="text-decoration-none w-auto d-flex justify-center align-center">
 			<v-img src="@/assets/images/logo.png" alt="HealthCare Logo" width="100"></v-img>
@@ -18,7 +18,7 @@
 				</v-list-item>
 			</v-list>
 		</v-menu>
-		<v-toolbar color="primary" class="w-auto d-none d-lg-flex">
+		<v-toolbar color="brown-lighten-2" class="w-auto d-none d-lg-flex">
 			<v-btn v-for="(link, index) in links" :key="index" link :to="link.to" @click="closeNav">
 				<v-list-item-title>{{ link.text }}</v-list-item-title>
 			</v-btn>
@@ -70,7 +70,10 @@ export default {
 				{ to: '/services', text: 'Services' },
 				{ to: '/products', text: 'Products' },
 				{ to: this.isLoggedIn ? '/profile' : '/login', text: this.isLoggedIn ? 'Profile' : 'Login' },
-			]
+			];
+			if(this.isLoggedIn){
+				login_routes.push({to:'/logout', text:'Logout'})
+			}
 			return login_routes
 		}
 	},
