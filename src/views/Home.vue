@@ -32,9 +32,9 @@
     </v-row>
 
     <!-- Footer Text -->
-    <v-row class="footer-text" justify="center">
+    <v-row class="footer-text px-5" justify="center">
       <v-col cols="12">
-        <p class="pa-5 border rounded-lg bg-primary">Your health matters to us. Explore a range of services and products tailored to meet your needs. Stay fit, stay
+        <p class="pa-5 border rounded-lg bg-brown-lighten-3">Your health matters to us. Explore a range of services and products tailored to meet your needs. Stay fit, stay
           healthy!</p>
       </v-col>
     </v-row>

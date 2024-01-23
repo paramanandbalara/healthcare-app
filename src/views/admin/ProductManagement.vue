@@ -146,35 +146,10 @@ export default {
                 console.error(error)
             }
         },
-        // async getProductThumbnail(productId) {
-        //     // Implement delete product functionality using API call
-        //     // Update products list after successful deletion
-        //     try {
-        //         const res = await this.axios.get(`/product/thumbnail/${productId}`);
-        //         this.loaded_thumbnails[productId] = res.data.data;
-        //     } catch (error) {
-        //         console.error(error)
-        //     }
-        // },
         async saveProduct() {
             const {
                 id,
-                // product_name,
-                // description,
-                // manufacturer,
-                // price,
-                // discount,
-                // thumbnail
             } = this.editedProduct;
-
-            // const formData = {
-            //     product_name,
-            //     description,
-            //     manufacturer,
-            //     price,
-            //     discount,
-            //     thumbnail
-            // }
             const formData = new FormData();
             await Object.keys(this.editedProduct).forEach((e) => {
                 formData.append(e, this.editedProduct[e])
@@ -197,8 +172,6 @@ export default {
                 this.dialog = false;
             } else {
                 const res = await this.axios.put(`/product/${id}`, formData);
-                // Implement add product functionality using API call
-                // Update products list after successful addition
                 console.log(res);
                 this.dialog = false;
             }
@@ -209,28 +182,10 @@ export default {
             try {
                 const res = await this.axios.get('/product');
                 this.products = res.data;
-                // if(res.data.length){
-                //     res.data.forEach(e=>{
-                //         this.getProductThumbnail(e.id);
-                //     })
-                // }
             } catch (error) {
                 console.error(error)
             }
         },
-        // Method to add additional product image field
-        // addAdditionalImage() {
-        //     this.editedProduct.additionalImages.push('');
-        // },
-
-        // Method to recalculate price or discount based on changes
-        // recalculatePriceOrDiscount() {
-        //     if (this.editedProduct.originalPrice && this.editedProduct.price) {
-        //         this.editedProduct.discount = ((this.editedProduct.originalPrice - this.editedProduct.price) / this.editedProduct.originalPrice) * 100;
-        //     } else if (this.editedProduct.originalPrice && this.editedProduct.discount) {
-        //         this.editedProduct.price = this.editedProduct.originalPrice * ((100 - this.editedProduct.discount) / 100);
-        //     }
-        // },
     },
     created() {
         // Fetch products when the component is created

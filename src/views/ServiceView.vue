@@ -1,21 +1,28 @@
 <template>
     <v-container>
         <v-row>
-            <h2 class="text-center w-100 my-5 text-h2">Services</h2>
+            <v-col>
+                <div class="d-flex align-end justify-space-between my-5">
+                    <h2 class="text-left my-1 w-100 text-h4">Services</h2>
+                </div>
+            </v-col>
         </v-row>
+
+        <v-divider class="mb-5"></v-divider>
+
         <v-row>
             <v-col v-for="service in services" :key="service.title" cols="12" md="3">
                 <v-card class="h-100" flat @mouseover="hoverService(service.title)" @mouseout="unhoverService">
                     <v-row>
                         <v-col cols="12">
-                            <v-img :src="service.icon" :alt="service.title"></v-img>
+                            <v-img :src="`data:image/jpeg;base64,${service.thumbnail}`" :alt="service.title"></v-img>
                         </v-col>
                         <v-col cols="12" class="d-flex flex-column text-center">
                             <h2>{{ service.title }}</h2>
                             <p class="mb-3" :class="{ 'highlight-price': hoveredService === service.title }">{{
                                 service.price }}</p>
                             <div class="text-center">
-                                <v-btn color="green" class="mb-5" @click="consult(service.id)">Consult now</v-btn>
+                                <v-btn color="brown-lighten-3" class="mb-5" @click="consult(service.id)">Consult now</v-btn>
                             </div>
                         </v-col>
                     </v-row>
@@ -47,25 +54,14 @@ export default {
         this.fetchServices();
     },
     methods: {
+        
         async fetchServices() {
+            // Implement fetching products from API and update 'products' data
             try {
-                // Dummy data
-                const dummyData = [
-          { id : 1, title: 'Performance', icon: 'https://i.mscwlns.co/media/misc/other/home-rcl/4_EHvSVJQ1c.png?tr=w-500', price: '₹499' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          { title: 'Smoking', icon: 'https://i.mscwlns.co/media/misc/landing_pages/home-rcl/Untitled-1_jha49v.png?tr=w-500', price: '₹399' },
-          // ... Add more dummy services as needed
-        ];
-                this.services = dummyData; // Replace with response.data for actual data
+                const res = await this.axios.get('/services');
+                this.services = res.data;
             } catch (error) {
-                console.error("An error occurred:", error);
+                console.error(error)
             }
         },
         hoverService(serviceTitle) {

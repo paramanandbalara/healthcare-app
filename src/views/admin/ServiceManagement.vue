@@ -9,11 +9,11 @@
             <v-card-text>
                 <!-- Service List Table -->
                 <v-data-table class="border rounded-lg" :headers="headers" :items="services" item-key="id">
-                    <template v-slot:[`item.imageUrl`]="{ item }">
-                        {{ item.imageUrl }}
+                    <template v-slot:[`item.thumbnail`]="{ item }">
+                        <v-img :src="`data:image/jpeg;base64,${item.thumbnail}`" alt="Service Image" style="max-width: 100px;"></v-img>
                     </template>
-                    <template v-slot:[`item.name`]="{ item }">
-                        {{ item.name }}
+                    <template v-slot:[`item.service_name`]="{ item }">
+                        {{ item.service_name }}
                     </template>
                     <template v-slot:[`item.price`]="{ item }">
                         {{ item.price }}
@@ -32,9 +32,9 @@
                 <v-card-title>{{ editMode ? 'Edit Service' : 'Add Service' }}</v-card-title>
                 <v-card-text>
                     <v-form @submit.prevent="saveService">
-                        <v-text-field v-model="editedService.name" label="Service Name"></v-text-field>
-                        <v-text-field v-model="editedService.imageUrl" label="Image URL"></v-text-field>
-                        <v-text-field v-model.number="editedService.price" label="Price"></v-text-field>
+                        <v-text-field variant="outlined" v-model="editedService.service_name" label="Service Name"></v-text-field>
+                        <v-file-input variant="outlined" v-model="imageUrl" label="Service Thumbnail" accept=".jpg,.jpeg,.png"></v-file-input>
+                        <v-text-field variant="outlined" v-model.number="editedService.price" label="Price"></v-text-field>
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
@@ -53,34 +53,67 @@ export default {
     data() {
         return {
             services: [], // Array to store service items
-            editedService: { // Placeholder for editing or adding service
-                name: '',
-                imageUrl: '',
+            editedService: {
+                id:null,
+                service_name: '',
                 price: 0,
             },
+            imageUrl: [],
             editedServiceIndex: -1, // Index of edited service in the array
             editMode: false, // Flag to determine if in edit mode
             showServiceDialog: false, // Flag to control visibility of service form dialog
             headers: [ // Table headers
-                { title: 'Service Image', value: 'imageUrl' },
-                { title: 'Service Name', value: 'name' },
+                { title: 'Service Image', value: 'thumbnail' },
+                { title: 'Service Name', value: 'service_name' },
                 { title: 'Price', value: 'price' },
                 { title: 'Actions', value: 'actions', sortable: false },
             ],
         };
     },
+    created() {
+        // Fetch products when the component is created
+        this.fetchServices();
+    },
     methods: {
         // Method to save or update service
-        saveService() {
-            if (this.editMode) {
-                // Update existing service
-                this.services[this.editedServiceIndex] = { ...this.editedService };
-            } else {
-                // Add new service
-                this.services.push({ ...this.editedService, id: this.services.length + 1 });
+        async saveService() {
+            
+            const {
+                id,
+            } = this.editedService;
+            const formData = new FormData();
+            await Object.keys(this.editedService).forEach((e) => {
+                formData.append(e, this.editedService[e])
+            })
+            if (this.imageUrl.length) {
+                await Object.keys(this.imageUrl).forEach((index) => {
+                    formData.append('files', this.imageUrl[index], `thumbnail.${this.imageUrl[index].name.split('.').pop()}`)
+                })
             }
+
+            if (!this.editMode) {
+                // Implement edit product functionality using API call
+                const res = await this.axios.post('/services', formData);
+                console.log(res);
+                // Update products list after successful update
+                this.showServiceDialog = false;
+            } else {
+                const res = await this.axios.put(`/services/${id}`, formData);
+                console.log(res);
+                this.showServiceDialog = false;
+            }
+            this.fetchServices();
             this.clearFields();
             this.showServiceDialog = false;
+        },
+        async fetchServices() {
+            // Implement fetching products from API and update 'products' data
+            try {
+                const res = await this.axios.get('/services');
+                this.services = res.data;
+            } catch (error) {
+                console.error(error)
+            }
         },
         // Method to edit a service
         editService(service) {
@@ -96,10 +129,11 @@ export default {
         // Method to clear input fields
         clearFields() {
             this.editedService = {
-                name: '',
-                imageUrl: '',
+                id:null,
+                service_name: '',
                 price: 0,
             };
+            this.imageUrl = [],
             this.editMode = false;
             this.showServiceDialog = false;
         },
