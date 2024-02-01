@@ -149,42 +149,42 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/admin',
-    component: () => import('@/layouts/admin/AdminLayout.vue'),
-    children: [
-      { 
-        path: 'users', 
-        name:'UserManagement',
-        component: () => import('@/views/admin/UserManagement.vue') 
-      },
-      { 
-        path: 'products', 
-        name:'ProductManagement',
-        component: () => import('@/views/admin/ProductManagement.vue') 
-      },
-      { 
-        path: 'services', 
-        name:'ServiceManagement',
-        component: () => import('@/views/admin/ServiceManagement.vue') 
-      },
-      { 
-        path: 'service-requests', 
-        name:'ServiceRequests',
-        component: () => import('@/views/admin/ServiceRequests.vue') 
-      },
-      { 
-        path: 'orders', 
-        name:'OrderManagement',
-        component: () => import('@/views/admin/OrderManagement.vue') 
-      },
-      { 
-        path: 'billing', 
-        name:'BillingManagement',
-        component: () => import('@/views/admin/BillingManagement.vue') 
-      },
-    ],
-  },
+  // {
+  //   path: '/admin',
+  //   component: () => import('@/layouts/admin/AdminLayout.vue'),
+  //   children: [
+  //     { 
+  //       path: 'users', 
+  //       name:'UserManagement',
+  //       component: () => import('@/views/admin/UserManagement.vue') 
+  //     },
+  //     { 
+  //       path: 'products', 
+  //       name:'ProductManagement',
+  //       component: () => import('@/views/admin/ProductManagement.vue') 
+  //     },
+  //     { 
+  //       path: 'services', 
+  //       name:'ServiceManagement',
+  //       component: () => import('@/views/admin/ServiceManagement.vue') 
+  //     },
+  //     { 
+  //       path: 'service-requests', 
+  //       name:'ServiceRequests',
+  //       component: () => import('@/views/admin/ServiceRequests.vue') 
+  //     },
+  //     { 
+  //       path: 'orders', 
+  //       name:'OrderManagement',
+  //       component: () => import('@/views/admin/OrderManagement.vue') 
+  //     },
+  //     { 
+  //       path: 'billing', 
+  //       name:'BillingManagement',
+  //       component: () => import('@/views/admin/BillingManagement.vue') 
+  //     },
+  //   ],
+  // },
 ]
 
 const router = createRouter({
