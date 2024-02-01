@@ -8,46 +8,90 @@
             <v-card-text>
                 <!-- Order List Table -->
                 <v-data-table class="border rounded-lg" :headers="headers" :items="orders" item-key="id">
-                    <template v-slot:[`item.orderId`]="{ item }">
-                        <p>{{ item.orderId }}</p>
+                    <template v-slot:[`item.order_id`]="{ item }">
+                        <p>{{ item.order_id }}</p>
                     </template>
-                    <template v-slot:[`item.date`]="{ item }">
-                        <p>{{ item.date }}</p>
+                    <template v-slot:[`item.created`]="{ item }">
+                        <p>{{ new Date(item.created).toLocaleDateString() }}</p>
                     </template>
-                    <template v-slot:[`item.customerName`]="{ item }">
-                        <p>{{ item.customerName }}</p>
+                    <template v-slot:[`item.customer_name`]="{ item }">
+                        <p>{{ item.customer_name }}</p>
                     </template>
-                    <template v-slot:[`item.total`]="{ item }">
-                        <p>{{ item.total }}</p>
+                    <template v-slot:[`item.order_items`]="{ item }">
+                        <p>{{ item.order_items?.length }}</p>
+                    </template>
+                    <template v-slot:[`item.status`]="{ item }">
+                        <p :class="{'text-blue-darken-2':item.status=='Pending','text-green-darken-2':item.status=='Completed','text-red-darken-2':item.status=='Cancelled'}">{{ item.status }}</p>
+                    </template>
+                    <template v-slot:[`item.total_amount`]="{ item }">
+                        <p>₹{{ item.total_amount }}</p>
                     </template>
                     <template v-slot:[`item.actions`]="{ item }">
-                        <v-btn @click="viewOrder(item)">View</v-btn>
-                        <v-btn color="red" class="ml-5" @click="cancelOrder(item.id)">Cancel</v-btn>
+                        <v-btn variant="text" @click="viewOrder(item)">View</v-btn>
+                        <v-btn variant="text" color="red" @click="cancelOrder(item.id)">Cancel</v-btn>
                     </template>
                 </v-data-table>
             </v-card-text>
         </v-card>
 
         <!-- Order Details Dialog -->
-        <v-dialog v-model="showOrderDialog" max-width="500px">
+        <v-dialog v-model="showOrderDialog" max-width="720px">
             <v-card class="pa-5">
                 <v-card-title>Order Details</v-card-title>
-                <v-card-text>
+                <v-card-text class="pa-0">
                     <div v-if="selectedOrder">
-                        <p class="mb-2">Order ID: {{ selectedOrder.orderId }}</p>
-                        <p class="mb-2">Date: {{ selectedOrder.date }}</p>
-                        <p class="mb-2">Customer Name: {{ selectedOrder.customerName }}</p>
-                        <p class="mb-2">Customer Address: {{ selectedOrder.address }}</p>
-                        <p class="mb-2">Total Bill: ₹ {{ selectedOrder.total }}</p>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Order ID: </span>
+                            <span>{{ selectedOrder.order_id }}</span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Date: </span>
+                            <span>{{ new Date(selectedOrder.created).toLocaleDateString() }}</span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Customer Name: </span>
+                            <span>{{ selectedOrder.customer_name }}</span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Customer Phone: </span>
+                            <span>{{ selectedOrder.customer_phone }}</span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Customer Address: </span>
+                            <span>
+                                <span>{{ selectedOrder.customer_address }}, </span>
+                                <span>{{ selectedOrder.customer_city }}, </span>
+                                <span>{{ selectedOrder.customer_state }}, </span>
+                                <span class="font-weight-bold">{{ selectedOrder.customer_pincode }}</span>
+                            </span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Total Bill: </span>
+                            <span class="text-green-darken-2 font-weight-medium">₹{{ selectedOrder.total_amount }}</span>
+                        </v-card-subtitle>
+                        <v-card-subtitle class="mb-2 d-flex justify-space-between">
+                            <span class="font-weight-medium">Status: </span>
+                            <span class="font-weight-medium" :class="{'text-blue-darken-2':selectedOrder.status=='Pending','text-green-darken-2':selectedOrder.status=='Completed','text-red-darken-2':selectedOrder.status=='Cancelled'}">{{ selectedOrder.status }}</span>
+                        </v-card-subtitle>
 
-                        <h3>Ordered Items</h3>
+                        <v-card-title>Ordered Items</v-card-title>
                         <v-list>
-                            <v-list-item-group v-for="item in selectedOrder.items" :key="item.productId">
-                                <v-list-item>
+                            <v-list-item-group v-for="item in selectedOrder.order_items" :key="item.product_id">
+                                <v-list-item :prepend-avatar="`data:image/jpeg;base64,${item.thumbnail}`" class="border rounded mb-1 pb-2 pt-1">
                                     <v-list-item-content>
-                                        <v-list-item-title>{{ item.productName }}</v-list-item-title>
-                                        <v-list-item-subtitle>Quantity: {{ item.quantity }}</v-list-item-subtitle>
-                                        <v-list-item-subtitle>Amount: {{ item.amount }}</v-list-item-subtitle>
+                                        <v-list-item-title>{{ item.product_name }}</v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            <span>Quantity: </span>
+                                            <span class="font-weight-medium">{{ item.quantity }}</span> | 
+                                            <span>Price: </span>
+                                            <span class="font-weight-medium">₹{{ item.price }}</span> | 
+                                            <span>Discount: </span>
+                                            <span class="font-weight-medium">{{ item.discount }}%</span>
+                                        </v-list-item-subtitle>
+                                        <v-list-item-subtitle class="my-1">
+                                            <span>Amount: </span>
+                                            <span class="text-green-darken-2 font-weight-medium">₹{{ (item.price - (item.price * item.discount / 100)) * item.quantity }}</span>
+                                        </v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
@@ -57,7 +101,11 @@
                         <p>No order selected</p>
                     </div>
                 </v-card-text>
-                <v-btn @click="showOrderDialog = false">Close</v-btn>
+                <v-select class="mt-2" variant="outlined" density="compact" :items="order_status" v-model="new_status" placeholder="Update Status"></v-select>
+                <div class="d-flex justify-end">
+                    <v-btn class="ml-2" variant="text" @click="statusUpdate" color="green" v-if="new_status">Update</v-btn>
+                    <v-btn class="ml-2" variant="text" @click="showOrderDialog = false">Close</v-btn>
+                </div>
             </v-card>
         </v-dialog>
     </div>
@@ -67,37 +115,31 @@
 export default {
     data() {
         return {
-            orders: [
-                {
-                    orderId: '1',
-                    date: '2023-12-15',
-                    customerName: 'John Doe',
-                    address: '123 Main St, City',
-                    items: [
-                        { productId: '1', productName: 'Product A', quantity: 2, amount: 200 },
-                        { productId: '2', productName: 'Product B', quantity: 1, amount: 150 },
-                    ],
-                    total: 100,
-                },
-                {
-                    orderId: '2',
-                    date: '2023-12-16',
-                    customerName: 'Jane Smith',
-                    address: '456 Elm St, Town',
-                    items: [
-                        { productId: '3', productName: 'Product C', quantity: 3, amount: 300 },
-                        { productId: '1', productName: 'Product A', quantity: 1, amount: 100 },
-                    ],
-                    total: 250,
-                },
-            ], // Array to store orders
+            orders: [], // Array to store orders
             showOrderDialog: false, // Flag to control visibility of order details dialog
             headers: [ // Table headers
-                { title: 'Order ID', value: 'orderId' },
-                { title: 'Date', value: 'date' },
-                { title: 'Customer', value: 'customerName' },
-                { title: 'Total', value: 'total' },
+                { title: 'Order ID', value: 'order_id' },
+                { title: 'Date', value: 'created' },
+                { title: 'Customer', value: 'customer_name' },
+                { title: 'Items', value: 'order_items' },
+                { title: 'Total', value: 'total_amount' },
+                { title: 'Status', value: 'status' },
                 { title: 'Actions', value: 'actions', sortable: false },
+            ],
+            new_status:null,
+            order_status:[
+                {
+                    title:'Pending',
+                    value:'Pending'
+                },
+                {
+                    title:'Completed',
+                    value:'Completed'
+                },
+                {
+                    title:'Cancelled',
+                    value:'Cancelled'
+                }
             ],
             selectedOrder: null,
         };
@@ -115,9 +157,25 @@ export default {
             this.orders = this.orders.filter((order) => order.id !== orderId);
         },
         // Method to fetch orders (if required)
-        fetchOrders() {
-            // Fetch orders from API and update 'this.orders'
-            // You can use Axios or fetch API to make the API call
+        async fetchOrders() {
+            try {
+                const res = await this.axios.get('/admin/orders');
+                this.orders = res.data;
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        async statusUpdate() {
+            try {
+                const formData = {
+                    status:this.new_status,
+                    order_id:this.selectedOrder.order_id
+                }
+                const res = await this.axios.post('/admin/order/status',formData);
+                this.fetchOrders();
+            } catch (error) {
+                console.error(error)
+            }
         },
     },
     mounted() {

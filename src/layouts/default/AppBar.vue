@@ -1,9 +1,9 @@
 <template>
-	<v-app-bar app color="brown-lighten-2" class="w-100 pr-md-15" height="100">
+	<v-app-bar app color="brown-lighten-2" class="w-100 pr-md-15" height="100" scroll-behavior="hide">
 		<!-- <v-app-bar-nav-icon @click="showNav = !showNav"></v-app-bar-nav-icon> -->
 		<router-link to="/" class="text-decoration-none w-auto d-flex justify-center align-center">
 			<v-img src="@/assets/images/logo.png" alt="HealthCare Logo" width="100"></v-img>
-			<h2 class="text-decoration-none text-white text-h4 d-none d-lg-flex">Homeopathy</h2>
+			<h2 class="text-decoration-none text-white text-h4 d-none d-lg-flex">Homoeopatha</h2>
 		</router-link>
 		<v-spacer></v-spacer>
 		<v-menu offset-y>
@@ -25,7 +25,7 @@
 			<!-- <v-list> -->
 			<!-- </v-list> -->
 		</v-toolbar>
-		<v-badge color="red" content="cartItems" overlap>
+		<v-badge color="red" :content="cart_count" overlap>
 			<v-btn icon @click="goToCart">
 				<v-icon>mdi-cart</v-icon>
 			</v-btn>
@@ -42,12 +42,7 @@ export default {
 			showNav: false,
 			on: false,
 			isWideScreen: window.innerWidth > 768,
-			// links: [
-			// 	{ to: '/', text: 'Home' },
-			// 	{ to: '/services', text: 'Services' },
-			// 	{ to: '/products', text: 'Products' },
-			// 	{ to: this.store.isLoggedIn.value ? '/profile' : '/login', text: store.isLoggedIn.value ? 'Profile' : 'Login' },
-			// ],
+			cart_count:null,
 		};
 	},
 	computed: {
@@ -64,6 +59,9 @@ export default {
 		store(){
 			return useAppStore()
 		},
+        user_id() {
+            return this.store.user.id
+        },
 		links(){
 			const login_routes = [
 				{ to: '/', text: 'Home' },
@@ -72,6 +70,8 @@ export default {
 				{ to: this.isLoggedIn ? '/profile' : '/login', text: this.isLoggedIn ? 'Profile' : 'Login' },
 			];
 			if(this.isLoggedIn){
+				login_routes.push({to:'/consultations', text:'Consultations'})
+				login_routes.push({to:'/orders', text:'Orders'})
 				login_routes.push({to:'/logout', text:'Logout'})
 			}
 			return login_routes
@@ -79,6 +79,7 @@ export default {
 	},
 	created() {
 		window.addEventListener('resize', this.checkWidth);
+		this.fetchCartCount()
 	},
 	unmounted() {
 		window.removeEventListener('resize', this.checkWidth);
@@ -101,7 +102,16 @@ export default {
 				useAppStore().originatingPage.value = '/cart';
 				this.$router.push('/login');
 			}
-		}
+		},
+		async fetchCartCount() {
+            // Make an API call to fetch the user's cart
+            try {
+                const res = await this.axios.get(`/cart/count?userId=${this.user_id}`);
+                this.cart_count = res.data;
+            } catch (error) {
+                console.error(error)
+            }
+        },
 	}
 }
 </script>

@@ -1,5 +1,7 @@
 <template>
 	<v-app-bar app color="primary" class="w-100 pr-md-15">
+		<slot></slot>
+
 	</v-app-bar>
 </template>
 

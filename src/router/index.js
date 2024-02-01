@@ -128,6 +128,28 @@ const routes = [
     ],
   },
   {
+    path: '/order/:id',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      { 
+        path: '', 
+        name:'OrderDetails',
+        component: () => import('@/views/OrderDetails.vue') 
+      },
+    ],
+  },
+  {
+    path: '/consultations',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      { 
+        path: '', 
+        name:'Consultations',
+        component: () => import('@/views/ConsultationPage.vue') 
+      },
+    ],
+  },
+  {
     path: '/admin',
     component: () => import('@/layouts/admin/AdminLayout.vue'),
     children: [

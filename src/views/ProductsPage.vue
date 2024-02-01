@@ -19,18 +19,20 @@
                 <v-card flat class="h-100">
                     <v-badge color="red" class="ml-5" :content="`${product.discount}%OFF`" overlap>
                     </v-badge>
-                    <router-link :to="{ name: 'ProductDetails', params: { id: product.id } }">
-                        <v-img :src="`data:image/jpeg;base64,${product.thumbnail}`" class="px-4 mt-4"
+                    <router-link :to="{ name: 'ProductDetails', params: { id: product.id } }" class="text-decoration-none">
+                        <v-img :src="`data:image/jpeg;base64,${product.thumbnail}`" class="px-4 mt-4 rounded"
                             style="height:100%;max-height:200px;width:100%;object-fit: cover;" />
-                    </router-link>
-                    <div class="text-center pa-5">
-                            <v-card-title class="text-black">{{ product.product_name }}</v-card-title>
-                            <v-card-subtitle class="mb-2 text-medium-emphasis">Mkt: {{ product.manufacturer
+                            <v-card-title class="text-black mb-0 text-body-1 pb-0 font-weight-regular">{{ product.product_name }}</v-card-title>
+                            <v-card-subtitle class="text-medium-emphasis">Mkt: {{ product.manufacturer
                             }}</v-card-subtitle>
-                            <v-card-text class="pa-0 font-weight-medium text-h6 text-black">₹ {{ product.price * ((100 -
-                                product.discount) / 100) }}</v-card-text>
-                            <v-card-text class="text-medium-emphasis text-decoration-line-through">MRP ₹{{ product.price
-                            }}</v-card-text>
+                            <v-card-text class="pt-1">
+                            <span class="font-weight-medium text-body-2 text-black">₹ {{ product.price * ((100 -
+                                product.discount) / 100) }}</span>
+                            <span class="text-body-2 text-decoration-line-through ml-2 text-red-darken-2">₹{{ product.price
+                            }}</span>
+                            </v-card-text>
+                    </router-link>
+                    <div class="py-2">
                         <v-btn class="w-100" @click="addToCart(product.id)" color="success">ADD TO CART</v-btn>
                     </div>
                 </v-card>
@@ -40,6 +42,7 @@
 </template>
   
 <script>
+import { useAppStore } from '@/store/app';
 
 export default {
     data() {
@@ -54,6 +57,15 @@ export default {
     watch:{
         category(){
             this.fetchProducts();
+        }
+    },
+    computed:{
+
+        store() {
+            return useAppStore()
+        },
+        user_id(){
+            return this.store.user.id
         }
     },
     methods: {
@@ -71,8 +83,17 @@ export default {
         },
         async addToCart(productId) {
             try {
+                if(!this.user_id){
+                    this.$router.push('/login');
+                    return
+                }
+                const formData = {
+                    productId:productId,
+                    userId:this.user_id,
+                    quantity:1
+                }
                 // Make an API call to add the selected product to the cart
-                const res = await this.axios.post(`/cart/add`, { productId });
+                const res = await this.axios.post(`/cart/add`, formData);
                 console.log(res);
                 console.log(`Added product with ID ${productId} to cart.`);
 

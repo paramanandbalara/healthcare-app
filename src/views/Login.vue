@@ -2,7 +2,7 @@
     <v-container class="fill-height login-container flex-column">
         <v-card width="500px" class="text-center pa-5">
             <div class="w-100" v-if="!otpSent">
-                <h2 class="mb-4">Login</h2>
+                <h2 class="mb-4 font-weight-regular">Login</h2>
                 <v-text-field variant="solo" class="w-auto" v-model="phone_number" label="Enter your phone number" maxlength="10"></v-text-field>
                 <v-btn class="w-100" color="green" @click="requestOTP">Request OTP</v-btn>
             </div>

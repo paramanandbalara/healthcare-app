@@ -1,11 +1,11 @@
 <template>
-    <v-navigation-drawer permanent color="primary">
+    <v-navigation-drawer :permanent="!isMobile" v-model="drawer" color="primary">
 
         <template v-slot:prepend>
 
             <v-list>
 
-                <v-list-item prepend-avatar="@/assets/images/logo.jpeg" title="Homeopathy"></v-list-item>
+                <v-list-item prepend-avatar="@/assets/images/logo.jpeg" title="Homoeopatha"></v-list-item>
 
             </v-list>
 
@@ -16,7 +16,7 @@
         
         <v-list density="compact" nav>
 
-            <v-list-item  v-for="item, index in sidebar_options" :key="index" :to="item.to" :append-icon="item.icon" :title="item.title" :value="item.value" ></v-list-item>
+            <v-list-item  v-for="item, index in sidebar_options" :key="index" :to="item.to" :prepend-icon="item.icon" :title="item.title" :value="item.value" ></v-list-item>
             <!-- <v-list-group v-for="item, index in sidebar_options" :key="index" :value="item.value" >
                 <template v-slot:activator="{ props }">
                     <v-list-item :prepend-icon="item.icon" v-bind="props" :title="item.title" :value="item.value"
@@ -42,6 +42,7 @@ export default {
     data(){
         return{
             app_store: useAppStore(),
+            drawer:false,
             sidebar_options:[
                 {
                     title:'Users',
@@ -86,6 +87,16 @@ export default {
                     icon:'mdi-receipt-text-outline'
                 },
             ],
+        }
+    },
+    computed:{
+        isMobile(){
+            return this.$vuetify.display.mobile
+        }
+    },
+    created(){
+        if(!this.isMobile){
+            this.drawer = true
         }
     }
 }
