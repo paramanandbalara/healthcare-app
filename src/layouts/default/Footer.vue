@@ -1,5 +1,5 @@
 <template>
-    <v-footer class="bg-brown-lighten-3 text-center d-flex flex-column" style="max-height: 100px;">
+    <v-footer class="bg-brown-darken-2 text-center d-flex flex-column" style="max-height: 100px;">
         <div>
             <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="text"></v-btn>
         </div>

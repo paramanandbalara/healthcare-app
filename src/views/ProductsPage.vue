@@ -3,8 +3,8 @@
         <v-row>
             <v-col>
                 <div class="d-flex align-end justify-space-between my-5">
-                    <h2 class="text-center text-h4">Products</h2>
-                    <v-btn-toggle class="w-auto" v-model="category" divided variant="outlined" color="brown-lighten-3">
+                    <h2 class="text-center text-h4 text-brown-darken-2">Products</h2>
+                    <v-btn-toggle class="w-auto" v-model="category" divided variant="outlined" color="brown-darken-2">
                         <v-btn value="0">Cosmetic Products</v-btn>
                         <v-btn value="1">Medical Products</v-btn>
                     </v-btn-toggle>

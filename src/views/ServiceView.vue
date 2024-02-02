@@ -3,7 +3,7 @@
         <v-row>
             <v-col>
                 <div class="d-flex align-end justify-space-between my-5">
-                    <h2 class="text-left my-1 w-100 text-h4">Services</h2>
+                    <h2 class="text-left my-1 w-100 text-h4 text-brown-darken-2">Consultation</h2>
                 </div>
             </v-col>
         </v-row>
@@ -17,12 +17,10 @@
                         <v-col cols="12">
                             <v-img :src="`data:image/jpeg;base64,${service.thumbnail}`" :alt="service.title"></v-img>
                         </v-col>
-                        <v-col cols="12" class="d-flex flex-column text-center">
-                            <h2>{{ service.title }}</h2>
-                            <p class="mb-3" :class="{ 'highlight-price': hoveredService === service.title }">{{
-                                service.price }}</p>
+                        <v-col cols="12" class="d-flex align-center justify-space-between pt-0">
+                            <v-card-title class="text-body-1 font-weight-medium">{{ service.service_name }}</v-card-title>
                             <div class="text-center">
-                                <v-btn color="brown-lighten-3" class="mb-5" @click="consult(service.id)">Consult now</v-btn>
+                                <v-btn variant="text" color="brown-darken-2" @click="consult(service.id)">Consult now</v-btn>
                             </div>
                         </v-col>
                     </v-row>
